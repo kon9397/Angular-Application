@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { LoginComponent } from './login.component';
 import { RouterModule } from '@angular/router';
 import { loginRoutes } from './login.route';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -10,7 +11,8 @@ import { loginRoutes } from './login.route';
   declarations: [LoginComponent],
   imports: [
     CommonModule,
-    RouterModule.forChild(loginRoutes)
+    RouterModule.forChild(loginRoutes),
+    ReactiveFormsModule
   ]
 })
 export class LoginModule { }

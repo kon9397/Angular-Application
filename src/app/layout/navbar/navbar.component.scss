@@ -1,0 +1,14 @@
+@import 'variables.scss';
+
+.navbar {
+    background-color: $primaryColor;
+    
+
+    button {
+        border-color: $whiteColor;
+    }
+
+    a, button, ul li {
+        color: $whiteColor;
+    }
+}
