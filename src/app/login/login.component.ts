@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import {LoginService} from "../shared/services/login/login.service";
 
 @Component({
   selector: 'app-login',
@@ -12,15 +13,21 @@ export class LoginComponent implements OnInit {
         password: ['', [Validators.required]]
     })
 
+    errorMessage: string = '';
+    noValidData: boolean = false;
 
-    constructor(private fb: FormBuilder) { }
+
+    constructor(
+        private fb: FormBuilder,
+        private loginService: LoginService
+    ) { }
 
     ngOnInit(): void {
     }
 
     onSubmit() {
-        console.log(this.loginForm.value);
-        console.log(this.loginForm);
+        this.errorMessage = this.loginService.signIn(this.loginForm.value as {email: string, password: string}) as string;
+        if(this.errorMessage) this.noValidData = true;
     }
 
 }
