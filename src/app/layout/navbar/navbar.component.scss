@@ -2,13 +2,19 @@
 
 .navbar {
     background-color: $primaryColor;
-    
+
 
     button {
         border-color: $whiteColor;
     }
 
-    a, button, ul li {
+    a,
+    button,
+    ul li {
         color: $whiteColor;
+    }
+
+    .sign-out-link {
+        cursor: pointer;
     }
 }
