@@ -14,6 +14,19 @@
         color: $whiteColor;
     }
 
+    .admin-link {
+        background-color: $whiteColor;
+        color: $blackColor;
+        border: 1px solid $whiteColor;
+        border-radius: 6px;
+
+        &:hover {
+            background-color: $primaryColor;
+            color: $whiteColor;
+
+        }
+    }
+
     .sign-out-link {
         cursor: pointer;
     }
