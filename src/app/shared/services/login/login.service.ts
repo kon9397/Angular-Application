@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { User } from "../../models/User";
 import { Router } from "@angular/router";
 import { Subject } from 'rxjs';
+import { Roles } from '../../enums/Roles';
+import { adminRoutes } from 'src/app/admin-dashboard/admin-dashboard.route';
 
 @Injectable({
     providedIn: 'root'
@@ -11,13 +13,13 @@ export class LoginService {
         {
             email: 'admin@example.com',
             password: 'qwerty123',
-            role: 'admin',
+            role: Roles.Admin,
             token: 'xcv346_dsf1cvj3bnff6FTH#2bcbsdsdf23'
         },
         {
             email: 'user@example.com',
             password: 'qwerty123',
-            role: 'user',
+            role: Roles.User,
             token: 'Jfg546!r60)2346FHw4457fdb341DDdfhbgh'
         }
     ]
@@ -25,25 +27,12 @@ export class LoginService {
 
     constructor(private router: Router) { }
 
-    get userEmail(): string {
-        const userEmail = localStorage.getItem('userName');
-        if (userEmail) {
-            return userEmail;
-        }
-
-        return '';
-    }
-
-    get userRole(): string | null {
-        return localStorage.getItem('role');
-    }
-
     signIn(loginData: { email: string, password: string }): string | void {
         const currentUser = this.users.find(user => user.email === loginData.email && user.password === loginData.password);
         if (currentUser) {
             this.setDataToLocalStorage(currentUser.email, currentUser.token, currentUser.role);
             this.authState.next(true);
-            if (currentUser.role === 'admin') {
+            if (currentUser.role === Roles.Admin) {
                 this.authState.next(true);
                 this.router.navigate(['admin-dashboard']);
                 return;
@@ -61,7 +50,6 @@ export class LoginService {
         const currentToken = localStorage.getItem('token');
         if (currentToken) {
             const state = this.users.find(user => user.token === currentToken) ? true : false;
-            this.authState.next(state);
             return state;
         }
         return false;

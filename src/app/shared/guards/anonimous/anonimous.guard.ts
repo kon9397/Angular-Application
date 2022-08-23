@@ -16,8 +16,8 @@ export class AnonimousGuard implements CanActivate {
         route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
-        if (this.loginService.checkSignedIn() === true) {
-            this.router.navigate(['.'])
+        if (this.loginService.checkSignedIn()) {
+            this.router.navigate(['/'])
             return this.loginService.checkSignedIn()
         };
 

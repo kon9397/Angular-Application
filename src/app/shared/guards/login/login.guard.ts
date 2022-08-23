@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
+import { Roles } from '../../enums/Roles';
 import { LoginService } from '../../services/login/login.service';
+import { UserService } from '../../services/user/user.service';
 
 @Injectable({
     providedIn: 'root'
@@ -9,6 +11,7 @@ import { LoginService } from '../../services/login/login.service';
 export class LoginGuard implements CanActivate {
     constructor(
         private loginService: LoginService,
+        private userService: UserService,
         private router: Router
     ) {
     }
@@ -20,6 +23,10 @@ export class LoginGuard implements CanActivate {
 
         if (!isAuthenticated) {
             this.router.navigate(['/login'])
+        } 
+
+        if(this.userService.userRole === Roles.User && state.url === '/admin-dashboard') {
+            this.router.navigate(['/error']);
         }
 
         return isAuthenticated;
