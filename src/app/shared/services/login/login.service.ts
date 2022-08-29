@@ -23,7 +23,9 @@ export class LoginService {
             token: 'Jfg546!r60)2346FHw4457fdb341DDdfhbgh'
         }
     ]
-    authState: Subject<boolean> = new Subject<boolean>();
+    private authState: Subject<User> = new Subject<User>();
+
+    public authStateChange$ = this.authState.asObservable();
 
     constructor(private router: Router) { }
 
@@ -31,13 +33,13 @@ export class LoginService {
         const currentUser = this.users.find(user => user.email === loginData.email && user.password === loginData.password);
         if (currentUser) {
             this.setDataToLocalStorage(currentUser.email, currentUser.token, currentUser.role);
-            this.authState.next(true);
+            this.authState.next(currentUser);
             if (currentUser.role === Roles.Admin) {
-                this.authState.next(true);
+                this.authState.next(currentUser);
                 this.router.navigate(['admin-dashboard']);
                 return;
             } else {
-                this.authState.next(true);
+                this.authState.next(currentUser);
                 this.router.navigate(['.']);
                 return;
             }
