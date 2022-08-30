@@ -8,13 +8,19 @@ import { User } from "../../models/User";
 })
 export class CurrentUserService {
   private authState: Subject<User | null> = new Subject<User | null>();
+  private currentUser: User | null = {
+    email: '',
+    password: '',
+    token: '',
+    role: ''
+  }
 
   public authStateChange$ = this.authState.asObservable();
 
   constructor() {}
 
   get userEmail(): string {
-    const userEmail = localStorage.getItem("userName");
+    const userEmail = this.currentUser?.email;
     if (userEmail) {
       return userEmail;
     }
@@ -23,7 +29,12 @@ export class CurrentUserService {
   }
 
   get userRole(): string | null {
-    return localStorage.getItem("role");
+    const userRole = this.currentUser?.role;
+    if(userRole) {
+      return userRole;
+    }
+
+    return "";
   }
 
   checkSignedIn(): boolean {
@@ -38,6 +49,7 @@ export class CurrentUserService {
   }
 
   updateAuthState(userData: User | null): void {
+    this.setCurrentUser(userData);
     this.authState.next(userData);
   }
 
@@ -54,9 +66,11 @@ export class CurrentUserService {
     }
   }
 
-  setDataToLocalStorage(email: string, token: string, role: string) {
-    localStorage.setItem("userName", email);
+  setCurrentUser(currentUser: User | null): void {
+      this.currentUser = currentUser;
+  }
+
+  setTokenToLocalStorage(token: string) {
     localStorage.setItem("token", token);
-    localStorage.setItem("role", role);
   }
 }

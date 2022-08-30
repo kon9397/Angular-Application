@@ -1,16 +1,13 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
-import { Roles } from '../../enums/Roles';
-import { AuthService } from '../../services/auth/auth.service';
 import { CurrentUserService } from '../../services/user/current-user.service';
 
 @Injectable({
     providedIn: 'root'
 })
-export class LoginGuard implements CanActivate {
+export class AuthGuard implements CanActivate {
     constructor(
-        private authService: AuthService,
         private currentUserService: CurrentUserService,
         private router: Router
     ) {
@@ -20,16 +17,24 @@ export class LoginGuard implements CanActivate {
         route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
         const isAuthenticated = this.currentUserService.checkSignedIn();
-
-        if (!isAuthenticated) {
-            this.router.navigate(['/login'])
+ 
+        if (isAuthenticated) {
+            if (state.url.includes('login')) {
+                this.router.navigate(['/']);
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            if (state.url.includes('login')) {
+                return true;
+            } else {
+                this.router.navigate(['login']);
+                return false;
+            }
         } 
-
-        if(this.currentUserService.userRole === Roles.User && state.url === '/admin-dashboard') {
-            this.router.navigate(['/error']);
-        }
-
-        return isAuthenticated;
+            
+        
     }
 
 }

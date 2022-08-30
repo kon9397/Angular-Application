@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { AnonimousGuard } from './anonimous.guard';
+import { UserRoleAccessGuard } from './user-role-access.guard';
 
-describe('AnonimousGuard', () => {
-  let guard: AnonimousGuard;
+describe('UserRoleAccessGuard', () => {
+  let guard: UserRoleAccessGuard;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    guard = TestBed.inject(AnonimousGuard);
+    guard = TestBed.inject(UserRoleAccessGuard);
   });
 
   it('should be created', () => {

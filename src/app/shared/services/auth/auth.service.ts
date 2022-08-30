@@ -16,10 +16,10 @@ export class AuthService {
     signIn(loginData: { email: string, password: string }): string | void {
         const currentUser = USERS.find(user => user.email === loginData.email && user.password === loginData.password);
         if (currentUser) {
-            this.currentUserService.setDataToLocalStorage(currentUser.email, currentUser.token, currentUser.role);
+            this.currentUserService.setTokenToLocalStorage(currentUser.token);
             this.currentUserService.updateAuthState(currentUser);
             if (currentUser.role === Roles.Admin) {
-                this.currentUserService.updateAuthState(currentUser)
+                this.currentUserService.updateAuthState(currentUser);
                 this.router.navigate(['admin-dashboard']);
                 return;
             } else {
