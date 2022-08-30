@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { User } from 'src/app/shared/models/User';
 import { AuthService } from 'src/app/shared/services/auth/auth.service';
 import { CurrentUserService } from 'src/app/shared/services/user/current-user.service';
 
@@ -9,14 +10,14 @@ import { CurrentUserService } from 'src/app/shared/services/user/current-user.se
 })
 export class NavbarComponent implements OnInit {
     public isMenuCollapsed = true;
-    isLoggedIn: boolean = false;
-    role: string | null = null;
+    @Input() currentUser: User | null = null;
     constructor(
         private authService: AuthService,
         private currentUserService: CurrentUserService
     ) { }
 
     ngOnInit(): void {
+        console.log(this.currentUser);
     }
 
     onSignOut(): void {

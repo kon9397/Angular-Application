@@ -14,13 +14,13 @@
                     <!-- Step 4: Close the menu when a link is clicked. -->
                     <a class="nav-link" [routerLink]="'.'" (click)="isMenuCollapsed = true">Home</a>
                 </li>
-                <li class="nav-item" *ngIf="!isLoggedIn">
+                <li class="nav-item" *ngIf="!currentUser">
                     <a class="nav-link" [routerLink]="'login'" (click)="isMenuCollapsed = true">Login</a>
                 </li>
-                <li class="nav-item sign-out-link" *ngIf="isLoggedIn">
+                <li class="nav-item sign-out-link" *ngIf="currentUser">
                     <a class="nav-link" (click)="onSignOut()">Sign Out</a>
                 </li>
-                <li class="nav-item" *ngIf="role === 'admin'">
+                <li class="nav-item" *ngIf="currentUser?.role === 'admin'">
                     <a class="nav-link admin-link" [routerLink]="'admin-dashboard'"
                         (click)="isMenuCollapsed = true">Admin</a>
                 </li>
