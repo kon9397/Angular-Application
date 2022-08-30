@@ -2,16 +2,16 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Roles } from '../../enums/Roles';
-import { LoginService } from '../../services/login/login.service';
-import { UserService } from '../../services/user/user.service';
+import { AuthService } from '../../services/auth/auth.service';
+import { CurrentUserService } from '../../services/user/current-user.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class LoginGuard implements CanActivate {
     constructor(
-        private loginService: LoginService,
-        private userService: UserService,
+        private authService: AuthService,
+        private currentUserService: CurrentUserService,
         private router: Router
     ) {
     }
@@ -19,13 +19,13 @@ export class LoginGuard implements CanActivate {
     canActivate(
         route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-        const isAuthenticated = this.loginService.checkSignedIn();
+        const isAuthenticated = this.currentUserService.checkSignedIn();
 
         if (!isAuthenticated) {
             this.router.navigate(['/login'])
         } 
 
-        if(this.userService.userRole === Roles.User && state.url === '/admin-dashboard') {
+        if(this.currentUserService.userRole === Roles.User && state.url === '/admin-dashboard') {
             this.router.navigate(['/error']);
         }
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../shared/services/user/user.service';
+import { CurrentUserService } from '../shared/services/user/current-user.service';
 
 @Component({
     selector: 'app-home',
@@ -8,10 +8,10 @@ import { UserService } from '../shared/services/user/user.service';
 })
 export class HomeComponent implements OnInit {
     userName: string = '';
-    constructor(private userService: UserService) { }
+    constructor(private currentUserService: CurrentUserService) { }
 
     ngOnInit(): void {
-        this.userName = this.userService.userEmail;
+        this.userName = this.currentUserService.userEmail;
     }
 
 }

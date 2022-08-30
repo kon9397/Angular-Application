@@ -1,27 +1,32 @@
-import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Observable } from 'rxjs';
-import { LoginService } from '../../services/login/login.service';
+import { Injectable } from "@angular/core";
+import {
+  ActivatedRouteSnapshot,
+  CanActivate,
+  Router,
+  RouterStateSnapshot,
+  UrlTree,
+} from "@angular/router";
+import { Observable } from "rxjs";
+import { CurrentUserService } from "../../services/user/current-user.service";
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: "root",
 })
 export class AnonimousGuard implements CanActivate {
-    constructor(
-        private loginService: LoginService,
-        private router: Router
-    ) { }
+  constructor(
+    private currentUserService: CurrentUserService,
+    private router: Router
+  ) {}
 
-    canActivate(
-        route: ActivatedRouteSnapshot,
-        state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-
-        if (this.loginService.checkSignedIn()) {
-            this.router.navigate(['/'])
-            return this.loginService.checkSignedIn()
-        };
-
-        return !this.loginService.checkSignedIn()
+  canActivate(
+    route: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    if (this.currentUserService.checkSignedIn()) {
+      this.router.navigate(["/"]);
+      return this.currentUserService.checkSignedIn();
     }
 
+    return !this.currentUserService.checkSignedIn();
+  }
 }
