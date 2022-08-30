@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Subject } from "rxjs";
 import { USERS } from "../../consts/users";
+import { Roles } from "../../enums/Roles";
 import { User } from "../../models/User";
 
 @Injectable({
@@ -51,6 +52,7 @@ export class CurrentUserService {
   updateAuthState(userData: User | null): void {
     this.setCurrentUser(userData);
     this.authState.next(userData);
+    console.log('update auth state')
   }
 
   checkSignedInAndUpdateAuthState(): void {
@@ -64,6 +66,11 @@ export class CurrentUserService {
     } else {
       this.updateAuthState(null);
     }
+  }
+
+  hasAnyAuthorities(roles: Array<Roles>): boolean {
+    const hasAuthority = !!(roles.find(role => role === this.currentUser?.role));
+    return hasAuthority;
   }
 
   setCurrentUser(currentUser: User | null): void {

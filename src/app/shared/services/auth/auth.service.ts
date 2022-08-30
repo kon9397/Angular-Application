@@ -19,12 +19,10 @@ export class AuthService {
             this.currentUserService.setTokenToLocalStorage(currentUser.token);
             this.currentUserService.updateAuthState(currentUser);
             if (currentUser.role === Roles.Admin) {
-                this.currentUserService.updateAuthState(currentUser);
                 this.router.navigate(['admin-dashboard']);
                 return;
             } else {
-                this.currentUserService.updateAuthState(currentUser);
-                this.router.navigate(['.']);
+                this.router.navigate(['/']);
                 return;
             }
         }
