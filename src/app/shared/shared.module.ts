@@ -9,6 +9,6 @@ import { SharedCommonModule } from './shared-common.module';
   ],
   exports: [
     SharedCommonModule
-  ]
+  ],
 })
 export class SharedModule { }

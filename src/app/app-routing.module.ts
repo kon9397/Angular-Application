@@ -11,7 +11,7 @@ const layoutRoutes: Routes = [
         loadChildren: () => import('./admin-dashboard/admin-dashboard.module').then(m => m.AdminDashboardModule),
         canActivate: [UserRoleAccessGuard],
         data: {
-            authorities: []
+            authorities: ['admin']
         }
     },
 ];
