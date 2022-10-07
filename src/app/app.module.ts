@@ -12,7 +12,7 @@ import { FooterComponent } from "./layout/footer/footer.component";
 import { HasAuthorityDirective } from "./shared/directives/has-authority.directive";
 
 @NgModule({
-    declarations: [MainComponent, NavbarComponent, FooterComponent, HasAuthorityDirective],
+    declarations: [MainComponent, NavbarComponent, FooterComponent],
     imports: [
         BrowserModule,
         SharedModule,

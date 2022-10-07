@@ -20,7 +20,7 @@
                 <li class="nav-item sign-out-link" *ngIf="currentUser">
                     <a class="nav-link" (click)="onSignOut()">Sign Out</a>
                 </li>
-                <li class="nav-item" *hasAuthority="['admin']">
+                <li class="nav-item" *hasAuthority="[Roles.Admin]">
                     <a class="nav-link admin-link" [routerLink]="'admin-dashboard'"
                         (click)="isMenuCollapsed = true">Admin</a>
                 </li>

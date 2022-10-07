@@ -1,7 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Roles } from 'src/app/shared/enums/Roles';
 import { User } from 'src/app/shared/models/User';
 import { AuthService } from 'src/app/shared/services/auth/auth.service';
-import { CurrentUserService } from 'src/app/shared/services/user/current-user.service';
+
 
 @Component({
     selector: 'app-navbar',
@@ -10,10 +11,10 @@ import { CurrentUserService } from 'src/app/shared/services/user/current-user.se
 })
 export class NavbarComponent implements OnInit {
     public isMenuCollapsed = true;
+    Roles = Roles;
     @Input() currentUser: User | null = null;
     constructor(
         private authService: AuthService,
-        private currentUserService: CurrentUserService
     ) { }
 
     ngOnInit(): void {

@@ -1,4 +1,4 @@
-import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
+import { Directive, Input, OnChanges, TemplateRef, ViewContainerRef } from '@angular/core';
 import { Roles } from '../enums/Roles';
 import { CurrentUserService } from '../services/user/current-user.service';
 
@@ -6,14 +6,9 @@ import { CurrentUserService } from '../services/user/current-user.service';
   selector: '[hasAuthority]'
 })
 export class HasAuthorityDirective {
-    @Input() set hasAuthority(authorities: any) {
-        const hasAnyAuthorities = this.currentUserService.hasAnyAuthorities(authorities);
-        
-        if(hasAnyAuthorities) {
-            this.container.createEmbeddedView(this.template);
-        } else {
-            this.container.clear();
-        }
+    @Input() set hasAuthority(authorities: Roles[]) {
+        this.updateView(authorities);
+        this.currentUserService.authStateChange$.subscribe(() => this.updateView(authorities));
     }
 
     constructor(
@@ -22,5 +17,12 @@ export class HasAuthorityDirective {
       private currentUserService: CurrentUserService
     ) { }
 
-
+    updateView(authorities: Roles[]) {
+      const hasAnyAuthorities = this.currentUserService.hasAnyAuthorities(authorities);
+      if(hasAnyAuthorities) {
+        this.container.createEmbeddedView(this.template);
+      } else {
+          this.container.clear();
+      }
+    }
 }
