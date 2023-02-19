@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder, Validators } from "@angular/forms";
 import { AuthService } from "../shared/services/auth/auth.service";
+import {Observable} from "rxjs";
 
 @Component({
   selector: "app-login",
@@ -13,7 +14,7 @@ export class LoginComponent implements OnInit {
     password: ["", [Validators.required]],
   });
 
-  errorMessage: string = "";
+  errorMessage: Observable<string> = new Observable<string>();
   noValidData: boolean = false;
 
   constructor(private fb: FormBuilder, private authService: AuthService) {}
@@ -23,7 +24,7 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     this.errorMessage = this.authService.signIn(
       this.loginForm.value as { email: string; password: string }
-    ) as string;
+    );
     if (this.errorMessage) this.noValidData = true;
   }
 }

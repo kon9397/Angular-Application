@@ -3,11 +3,14 @@ import { Subject } from "rxjs";
 import { USERS } from "../../consts/users";
 import { Roles } from "../../enums/Roles";
 import { User } from "../../models/User";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {tap, of, catchError, shareReplay} from "rxjs";
 
 @Injectable({
   providedIn: "root",
 })
 export class CurrentUserService {
+  private apiUrl = 'http://localhost:3000';
   private authState: Subject<User | null> = new Subject<User | null>();
   private currentUser: User | null = {
     email: '',
@@ -18,7 +21,7 @@ export class CurrentUserService {
 
   public authStateChange$ = this.authState.asObservable();
 
-  constructor() {}
+  constructor(private http: HttpClient) {}
 
   get userEmail(): string {
     const userEmail = this.currentUser?.email;
@@ -39,14 +42,7 @@ export class CurrentUserService {
   }
 
   checkSignedIn(): boolean {
-    const currentToken = localStorage.getItem("token");
-    if (currentToken) {
-      const state = USERS.find((user) => user.token === currentToken)
-        ? true
-        : false;
-      return state;
-    }
-    return false;
+    return !!localStorage.getItem('token')
   }
 
   updateAuthState(userData: User | null): void {
@@ -55,14 +51,41 @@ export class CurrentUserService {
     console.log('update auth state')
   }
 
-  checkSignedInAndUpdateAuthState(): void {
-    const currentToken = localStorage.getItem("token");
-    const currentUser = USERS.find(
-      (user) => user.token === currentToken
-    ) as User;
+  private getAuthorizationHeader(): string {
+    const authToken = localStorage.getItem('token');
+    return `Bearer ${authToken}`;
+  }
 
-    if (currentUser) {
-      this.updateAuthState(currentUser);
+  private getHttpOptions(): { headers: HttpHeaders } {
+    console.log(this.currentUser);
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': this.getAuthorizationHeader(),
+        'Email': 'admin@example.com'
+      })
+    };
+    return httpOptions;
+  }
+
+  checkSignedInAndUpdateAuthState(): void {
+    const authToken = localStorage.getItem('token');
+    console.log(authToken);
+    if (authToken) {
+      this.http.get<any>(`${this.apiUrl}/users/me`, this.getHttpOptions())
+          .pipe(
+              tap(response => {
+                console.log(response)
+                this.updateAuthState(response);
+              }),
+              catchError(error => {
+                console.error(error);
+                this.updateAuthState(null);
+                return of(null);
+              }),
+              shareReplay()
+          )
+          .subscribe();
     } else {
       this.updateAuthState(null);
     }

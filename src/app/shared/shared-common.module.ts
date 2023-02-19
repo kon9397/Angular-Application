@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { SharedLibsModule } from './shared-libs.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HasAuthorityDirective } from './directives/has-authority.directive';
+import {HttpClientModule} from "@angular/common/http";
 
 
 
@@ -12,7 +13,8 @@ import { HasAuthorityDirective } from './directives/has-authority.directive';
     CommonModule,
     SharedLibsModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule
   ],
   exports: [
     CommonModule,

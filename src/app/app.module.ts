@@ -9,7 +9,6 @@ import { LoginModule } from "./login/login.module";
 import { MainComponent } from "./layout/main/main.component";
 import { NavbarComponent } from "./layout/navbar/navbar.component";
 import { FooterComponent } from "./layout/footer/footer.component";
-import { HasAuthorityDirective } from "./shared/directives/has-authority.directive";
 
 @NgModule({
     declarations: [MainComponent, NavbarComponent, FooterComponent],

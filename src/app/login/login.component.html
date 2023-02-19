@@ -1,7 +1,7 @@
 <div class="container">
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
-            <p *ngIf="noValidData" class="alert alert-danger">{{errorMessage}}</p>
+            <p *ngIf="noValidData" class="alert alert-danger">{{errorMessage | async}}</p>
           <label for="exampleInputEmail1">Email address</label>
           <input formControlName="email" type="email" class="form-control" [class.is-invalid]="!loginForm.get('email')?.untouched && loginForm.get('email')?.invalid" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
           <div *ngIf="!loginForm.get('email')?.untouched && loginForm.get('email')?.invalid" class="text-danger">Please enter a valid E-mail</div>
