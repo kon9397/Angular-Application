@@ -39,7 +39,7 @@ export class AuthService {
             .pipe(
                 tap(response => {
                     this.currentUserService.setTokenToLocalStorage(response.token);
-
+                    this.currentUserService.setEmailToLocalStorage(response.user.email);
                     this.currentUserService.updateAuthState(response.user);
                     if (response.user.role === 'admin') {
                         this.router.navigate(['admin-dashboard']);

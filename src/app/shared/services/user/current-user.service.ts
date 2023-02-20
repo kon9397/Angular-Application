@@ -57,12 +57,11 @@ export class CurrentUserService {
   }
 
   private getHttpOptions(): { headers: HttpHeaders } {
-    console.log(this.currentUser);
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': this.getAuthorizationHeader(),
-        'Email': 'admin@example.com'
+        'Email': localStorage.getItem('email')!
       })
     };
     return httpOptions;
@@ -70,7 +69,6 @@ export class CurrentUserService {
 
   checkSignedInAndUpdateAuthState(): void {
     const authToken = localStorage.getItem('token');
-    console.log(authToken);
     if (authToken) {
       this.http.get<any>(`${this.apiUrl}/users/me`, this.getHttpOptions())
           .pipe(
@@ -98,6 +96,10 @@ export class CurrentUserService {
 
   setCurrentUser(currentUser: User | null): void {
       this.currentUser = currentUser;
+  }
+
+  setEmailToLocalStorage(email: string) {
+    localStorage.setItem('email', email);
   }
 
   setTokenToLocalStorage(token: string) {
