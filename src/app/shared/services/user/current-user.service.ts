@@ -73,7 +73,6 @@ export class CurrentUserService {
       this.http.get<any>(`${this.apiUrl}/users/me`, this.getHttpOptions())
           .pipe(
               tap(response => {
-                console.log(response)
                 this.updateAuthState(response);
               }),
               catchError(error => {

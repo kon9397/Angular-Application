@@ -16,25 +16,7 @@ export class AuthService {
     private apiUrl = 'http://localhost:3000';
     constructor(private http: HttpClient, private router: Router, private currentUserService: CurrentUserService) { }
 
-    getUsers() {
-
-    }
-
     signIn(loginData: { email: string, password: string }): Observable<string> {
-        // const currentUser = USERS.find(user => user.email === loginData.email && user.password === loginData.password);
-        // if (currentUser) {
-        //     this.currentUserService.setTokenToLocalStorage(currentUser.token);
-        //     this.currentUserService.updateAuthState(currentUser);
-        //     if (currentUser.role === Roles.Admin) {
-        //         this.router.navigate(['admin-dashboard']);
-        //         return;
-        //     } else {
-        //         this.router.navigate(['/']);
-        //         return;
-        //     }
-        // }
-        //
-        // return 'Email or password is wrong'
         return this.http.post<any>(`${this.apiUrl}/login`, { email: loginData.email, password: loginData.password })
             .pipe(
                 tap(response => {
